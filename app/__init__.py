@@ -1,12 +1,13 @@
 from flask import Flask
-from flask_bootstrap import Bootstrap
-from config import config
-
-bootstrap = Bootstrap()
 
 
-def create_app(config_name):
+def create_app(config):
 
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
+    app.config.from_object(config)
+
+    @app.route('/')
+    def index():
+        return f'SECRET_KEY={app.config.get("SECRET_KEY")}'
+    
+    return app
